@@ -1,0 +1,30 @@
+{
+  "name": "kaddu.lol_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:ui": "rm -rf dist && cd ../kaddutoo_frontend && npm run build && cp -r dist ../kaddutoo_backend && npx puppeteer browsers install chrome",
+    "deploy:full": "npm run build:ui && git add . && git commit -m 'automated commit+deploy after uibuild' && git push -u origin main"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.5.2",
+    "mongoose-sequence": "^6.0.1",
+    "multer": "^1.4.5-lts.1",
+    "puppeteer": "^23.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
