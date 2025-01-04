@@ -13,6 +13,7 @@ const Favourite = require('./models/favourite');
 const Quote = require('./models/quote');
 const Blog = require('./models/blog')
 const Log = require('./models/log')
+const Visits = require('./models/visits')
 
 require('dotenv').config();
 
@@ -25,6 +26,45 @@ mongoose.connect(mongoURI, {
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('Error connecting to MongoDB Atlas:', err));
 
+const trackVisits = async (request, response, next) => {
+  if (request.path.startsWith('/assets/') || request.path.startsWith('/api/')) {
+    return next();
+  }
+  const visits = await Visits.find({});
+  if (visits.length === 0) {
+    const visit = new Visits({
+      num_visits: 1
+    });
+  
+    try {
+      const savedVisit = await visit.save();
+      console.log("added first visit", savedVisit)
+    } catch (error) {
+      console.error('Error adding first visit:', error);
+    }
+  }
+
+  else {
+    try {
+      const updatedVisit = await Visits.findOneAndUpdate(
+        { id: visits[0].id },
+        { num_visits: visits[0].num_visits+1 },
+        { new: true }
+      );
+  
+      if (updatedVisit) {
+        console.log("visit count", updatedVisit);
+      } else {
+        console.log("something wrong");
+      }
+    } catch (error) {
+      console.error('Error updating visit count:', error);
+    }
+  }
+  next();
+}
+
+app.use(trackVisits)
 app.use(express.static('dist'));
 
 const requestLogger = (request, response, next) => {
