@@ -161,6 +161,16 @@ app.get('/api/logs', async (request, response) => {
   }
 });
 
+app.get('/api/visits', async (request, response) => {
+  try {
+    const visits = await Visits.find({});
+    response.json(visits[0]);
+  } catch (error) {
+    console.error('Error fetching visit count:', error);
+    response.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 app.post('/api/todos', async (request, response) => {
   const body = request.body;
 
