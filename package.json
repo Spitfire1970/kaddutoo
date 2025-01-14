@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:ui": "rm -rf dist && cd ../kaddutoo_frontend && npm run build && cp -r dist ../kaddutoo_backend && npx puppeteer browsers install chrome",
+    "build:ui": "rm -rf dist && cd ../kaddutoo_frontend && npm run build && cp -r dist ../kaddutoo_backend",
     "deploy:full": "npm run build:ui && git add . && git commit -m 'automated commit+deploy after uibuild' && git push -u origin main"
   },
   "author": "",
