@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { initChessServer } = require('./chess/chess-server');
 
 const puppeteer = require('puppeteer');
 
@@ -363,8 +366,12 @@ app.get('/api/imagelist', async (req, res) => {
 
 app.use(unknownEndpoint);
 
+// Initialize the chess WebSocket server
+initChessServer(server);
+
+// Change app.listen to server.listen
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
