@@ -1,5 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const AWS = require('aws-sdk');
+AWS.config.update({ region: 'eu-north-1' });
+const s3 = new AWS.S3();
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
@@ -363,6 +366,21 @@ app.get('/api/imagelist', async (req, res) => {
     // res.json(imageUrls);
   // })
 })
+
+app.get('/resume', (req, res) => {
+  const params = {
+    Bucket: 'kaddu-bucket',
+    Key: 'Nakul_Goyal_Resume.pdf'
+  };
+
+  s3.getObject(params)
+    .createReadStream()
+    .on('error', (err) => {
+      console.error('Error fetching resume from S3:', err);
+      res.status(500).send('Error retrieving resume.');
+    })
+    .pipe(res);
+});
 
 app.use(unknownEndpoint);
 
