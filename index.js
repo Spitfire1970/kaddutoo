@@ -93,6 +93,10 @@ const unknownEndpoint = (request, response) => {
   response.sendFile(path.join(__dirname, 'dist', 'index.html'));
 };
 
+app.get('/favicon.ico', (req, res) => {
+  res.redirect('https://utfs.io/f/7834ea10-f86a-4d8c-9f64-05eecda24bdd-25aw.png');
+});
+
 app.get('/api/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
