@@ -21,7 +21,7 @@
     "mongoose": "^8.18.2",
     "mongoose-sequence": "^6.0.1",
     "multer": "^2.0.2",
-    "puppeteer": "^24.22.3",
+    "puppeteer": "^24.30.0",
     "uuid": "^11.1.0",
     "ws": "^8.18.3"
   },
